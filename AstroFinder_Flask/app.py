@@ -4,13 +4,10 @@ from flask import Flask, request, jsonify, render_template
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
-# Initialize the Flask app
 app = Flask(__name__)
 
-# Load the pre-trained model
 model = load_model('prev_model.h5')
 
-# Define the class categories
 categories = ['nebula', 'none', 'asteroids', 'galaxies']
 
 def prepare_image(img_path):
@@ -36,10 +33,8 @@ def predict():
         file_path = os.path.join('uploads', file.filename)
         file.save(file_path)
 
-        # Prepare the image
         img_batch = prepare_image(file_path)
 
-        # Make prediction
         predictions = model.predict(img_batch)
         predicted_class_index = np.argmax(predictions)
         predicted_class = categories[predicted_class_index]
@@ -47,7 +42,6 @@ def predict():
         return jsonify({'predicted_class': predicted_class})
 
 if __name__ == '__main__':
-    # Create uploads directory if not exists
     if not os.path.exists('uploads'):
         os.makedirs('uploads')
 
