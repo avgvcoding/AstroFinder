@@ -3,7 +3,7 @@
 AstroFinder is a deep learning project that classifies space objects into four categories: galaxies, asteroids, nebulae, and none. The project includes a Jupyter notebook for model training and evaluation, a Flask web application for image classification, and a pre-trained model file.
 
 ## Project Structure
-
+- **Video_demo.mp4**: It contains video demonstration of website with model prediction and image uploading capabilities.
 - **AstroFinder.ipynb**: Jupyter notebook for training and evaluating the deep learning model.
 - **AstroFinder_Flask/**: Directory containing the Flask web application.
   - **app.py**: Flask application code for serving the model and handling image uploads.
