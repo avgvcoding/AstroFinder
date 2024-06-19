@@ -4,9 +4,6 @@ from flask import Flask, request, jsonify, render_template
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
-tensorflow.get_logger().setLevel('ERROR')
-
 app = Flask(__name__)
 
 model = load_model('prev_model.h5')
