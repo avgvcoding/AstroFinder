@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Space Object Classifier</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #0c1445; /* Dark blue background */
+            color: #ffffff; /* White text */
+            margin: 0;
+            padding: 0;
+            background-image: url('https://initiate.alphacoders.com/images/133/cropped-1920-1080-1337268.png?9822'); /* Relative path to static folder */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center horizontally */
+            justify-content: flex-start; /* Start content from the top */
+            position: relative; /* Ensure positioning for footer */
+        }
+        .header {
+            width: 100%;
+            background-color: rgba(50, 50, 50, 0.5); /* Translucent grey */
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+        }
+        .header h1 {
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 48px;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for depth */
+        }
+        .header p {
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); /* White shadow for depth */
+        }
+        .container h2 {
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 16px;
+            border: none;
+            background-color: #1e285a; /* Dark blue */
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 16px;
+            border: none;
+            background-color: #3674d8; /* Light blue */
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #235fbf; /* Darker shade of blue on hover */
+        }
+        .prediction {
+            margin-top: 20px;
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 24px;
+        }
+        .error {
+            color: #ff0000; /* Red text for error messages */
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-family: 'Space Mono', monospace; /* Space-themed font */
+            font-size: 12px;
+            color: #ffffff;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AstroFinder</h1>
+        <p>Discovering the wonders of the universe</p>
+    </div>
+    <br><br><br><br><br><br><br>
+    <div class="container">
+        <h2>Upload an image to predict the space object</h2>
+        <form id="uploadForm" action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput" accept=".jpg, .jpeg, .png, .webp" required>
+            <input type="submit" value="Upload">
+        </form>
+        <div id="predictionResult" class="prediction"></div>
+        <script>
+            document.getElementById('uploadForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var form = e.target;
+                var formData = new FormData(form);
+
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var predictionElement = document.getElementById('predictionResult');
+                    if (data.error) {
+                        predictionElement.innerHTML = `<p class="error">${data.error}</p>`;
+                    } else {
+                        predictionElement.innerHTML = `<p>Predicted class: ${data.predicted_class}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+    </div>
+    <div class="footer">
+        <p>Made by Aviral Gupta</p>
+    </div>
+</body>
+</html>
